@@ -2,21 +2,23 @@ package com.paytm.project.employeemanager.services;
 
 import com.paytm.project.employeemanager.model.Dept;
 import com.paytm.project.employeemanager.repos.DeptRepo;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.verify;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class DeptServiceTest {
 
     @Mock
-    private DeptRepo deptRepo;
-    private DeptService deptService;
+    DeptRepo deptRepo;
 
-    @BeforeEach
-    void setUp() {
-        deptService = new DeptService(this.deptRepo);
-    }
+    @InjectMocks
+    DeptService deptService;
+
     @Test
     void getAllDepts() {
         deptService.getAllDepts();
@@ -25,24 +27,30 @@ class DeptServiceTest {
 
     @Test
     void addDept() {
-        Dept dept = new Dept(1L,"HR", "HR Dept");
+        Dept dept = new Dept(5L,"Logistics","Logistics Dept");
         deptService.addDept(dept);
         verify(deptRepo).save(dept);
     }
 
     @Test
     void getDeptByName() {
-        Dept dept = new Dept(1L,"HR", "HR Dept");
-        deptService.getDeptByName("HR");
-        verify(deptRepo).findByName("HR");
+        Dept dept = new Dept(5L,"Logistics","Logistics Dept");
+        deptService.addDept(dept);
+        verify(deptRepo).save(dept);
     }
-    /*
+
     @Test
     void deleteDept() {
-        deptService.delete
+        Dept dept = new Dept(5L,"Logistics","Logistics Dept");
+        deptRepo.save(dept);
+        deptService.deleteDept(5L);
+        verify(deptRepo).deleteById(5L);
     }
 
     @Test
     void updateDept() {
-    }*/
+        Dept dept = new Dept(5L,"Logistics","Logistics Dept");
+        deptService.updateDept(dept);
+        verify(deptRepo).save(dept);
+    }
 }
